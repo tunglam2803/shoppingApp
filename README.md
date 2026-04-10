@@ -6,13 +6,15 @@ MSV: 23810310135
 
 ### 🏠 Home
 
-![Home](assets/images/1.png)
+![Home](assets/images/1.jpg)
 
 ### 🛒 Cart
 
-![Cart](assets/images/2.png)
-![Cart](assets/images/3.png)
+![Cart](assets/images/2.jpg)
+![Cart](assets/images/3.jpg)
+![Cart](assets/images/4.jpg)
+![Cart](assets/images/5.jpg)
 
 ### ❤️ Favourite
 
-![Favourite](assets/images/4.png)
+![Favourite](assets/images/6.jpg)
