@@ -1,20 +1,44 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function LoginScreen({ navigation }) {
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Hàm xử lý đăng nhập
+  const handleLogin = async () => {
+    // 1. Kiểm tra nhập liệu cơ bản
+    if (emailOrPhone.trim() && password.trim()) {
+      try {
+        // 2. Lưu token vào AsyncStorage để duy trì đăng nhập
+        await AsyncStorage.setItem("userToken", "dummy-auth-token-123");
+
+        // 3. Thông báo thành công và chuyển hướng
+        // Dùng replace để người dùng không thể bấm Back quay lại màn Login
+        navigation.replace("Main");
+      } catch (e) {
+        Alert.alert("Lỗi", "Không thể lưu thông tin đăng nhập.");
+      }
+    } else {
+      Alert.alert(
+        "Thông báo",
+        "Vui lòng nhập đầy đủ email/số điện thoại và mật khẩu.",
+      );
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -71,7 +95,7 @@ export default function LoginScreen({ navigation }) {
         {/* Login Button */}
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => navigation.replace("Main")} // Chuyển vào màn hình chính sau khi login
+          onPress={handleLogin} // Gọi hàm handleLogin khi nhấn
         >
           <Text style={styles.loginButtonText}>Đăng Nhập</Text>
         </TouchableOpacity>

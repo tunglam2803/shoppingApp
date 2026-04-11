@@ -1,14 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function SignupScreen({ navigation }) {
@@ -16,6 +18,25 @@ export default function SignupScreen({ navigation }) {
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Hàm xử lý đăng ký
+  const handleSignup = async () => {
+    // 1. Kiểm tra nhập liệu cơ bản
+    if (username.trim() && emailOrPhone.trim() && password.trim()) {
+      try {
+        // 2. Lưu token vào AsyncStorage để ghi nhớ trạng thái đã đăng nhập
+        await AsyncStorage.setItem("userToken", "dummy-auth-token-123");
+
+        // 3. Chuyển hướng vào màn hình chính (Main)
+        // Dùng replace để không quay lại màn hình đăng ký khi bấm Back
+        navigation.replace("Main");
+      } catch (e) {
+        Alert.alert("Lỗi", "Không thể hoàn tất đăng ký. Vui lòng thử lại.");
+      }
+    } else {
+      Alert.alert("Thông báo", "Vui lòng nhập đầy đủ tất cả thông tin.");
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -83,7 +104,7 @@ export default function SignupScreen({ navigation }) {
         {/* Signup Button */}
         <TouchableOpacity
           style={styles.signupButton}
-          onPress={() => navigation.replace("Main")} // Chuyển vào màn hình chính sau khi đăng ký
+          onPress={handleSignup} // Gọi hàm handleSignup khi nhấn
         >
           <Text style={styles.signupButtonText}>Đăng Ký</Text>
         </TouchableOpacity>
